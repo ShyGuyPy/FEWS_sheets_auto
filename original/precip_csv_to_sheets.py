@@ -15,9 +15,12 @@ import numpy as np
 from oauth2client.service_account import ServiceAccountCredentials
 from shutil import copyfile
 
+#this looks like a variable for current time
 t0 = time.time()
 
-precip_file= "/home/user1/MODEL/p52fc05_sa/output/icprb/MASP_MARFC_PRC.csv"
+# This is the MAIN input file
+precip_file= "/home/user1/MODEL/p52fc05/output/icprb/MASP_MARFC_PRC.csv"
+#these are possibly back_ups
 precip_file2= "/home/user1/MODEL/p52fc05_sa/output/icprb/archived_masp_marfc_prc/masp_marfc_weight_ave.csv" + time.strftime("%Y%m%d")
 precip_file3= "/mnt/SSD2/LFFS_archives/archived_masp_marfc_prc/masp_marfc_weight_ave.csv" + time.strftime("_%Y%m%d_%H")
 #f1 = os.path.join(directory1,precip_file)
@@ -26,6 +29,7 @@ weight_file = "/home/user1/MODEL/ICPRBextras/ExtrasV1.0/csv_to_sheets/weight1.cs
 list_ = []
 df = pd.read_csv(precip_file, index_col=0, header=0, skiprows=[1],  sep=',', parse_dates=[0],  date_parser= pd.datetools.to_datetime)
 list_.append(df)
+
 frame = pd.concat(list_)
 frame[frame == -999] = np.nan
 test1 = frame

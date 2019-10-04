@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<generalAdapterRun xmlns="http://www.wldelft.nl/fews"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.wldelft.nl/fews http://schemas/generalAdapterRun.xsd"
+>
+
+    <general>
+        <description>General Adapter Test</description>
+        <piVersion>1.5</piVersion>
+        <rootDir>$MODELDIR$/RTi/PublishPrecip</rootDir>
+        <workDir>%ROOT_DIR%/work</workDir>
+        <exportDir>%ROOT_DIR%/input</exportDir>
+        <exportDataSetDir>%ROOT_DIR%</exportDataSetDir>
+        <importDir>%ROOT_DIR%/output</importDir>
+        <dumpFileDir>$GA_DUMPFILEDIR$</dumpFileDir>
+        <dumpDir>%ROOT_DIR%</dumpDir>
+        <diagnosticFile>%ROOT_DIR%/output/diag.xml</diagnosticFile>
+    </general>
+
+    <activities>
+        <startUpActivities>
+            <purgeActivity>
+                <filter>%ROOT_DIR%/work/*.*</filter>
+            </purgeActivity>
+            <purgeActivity>
+                <filter>%ROOT_DIR%/output/*.*</filter>
+            </purgeActivity>
+        </startUpActivities>
+        <exportActivities>
+            <exportRunFileActivity>
+                <exportFile>%ROOT_DIR%/run_info.xml</exportFile>
+                <properties>
+                    <string key="archiveDir1" value="$IMPORT_FOLDER_ROOT$/nldas/"/>
+                    <string key="archiveDir2" value="$ARCHIVE_DIR$/NLDAS/"/>
+                    <string key="modelDir" value="https://hydro1.gesdisc.eosdis.nasa.gov/data/NLDAS/NLDAS_FORA0125_H.002/"/>
+                    <string key="dataDir" value="31"/>
+                </properties>
+            </exportRunFileActivity>
+        </exportActivities>
+        <executeActivities>
+            <executeActivity>
+                <command>
+                    <executable>$PYTHON_EXE$</executable>
+                </command>
+                <arguments>
+                    <argument>$PUBLISH_WMA_MET$</argument>
+                </arguments>
+                <!--time in milliseconds, allowing 3 minutes to run script-->
+                <timeOut>1800000</timeOut>
+                <ignoreDiagnostics>true</ignoreDiagnostics>
+            </executeActivity>
+            <executeActivity>
+                <command>
+                    <executable>$PYTHON_EXE$</executable>
+                </command>
+                <arguments>
+                    <argument>$PUBLISH_PRECIP$</argument>
+                </arguments>
+                <!--time in milliseconds, allowing 3 minutes to run script-->
+                <timeOut>1800000</timeOut>
+                <ignoreDiagnostics>true</ignoreDiagnostics>
+            </executeActivity>
+        </executeActivities>
+    </activities>
+
+</generalAdapterRun>
